@@ -1,0 +1,14 @@
+1. Få sprite til at vise i alle retninger
+2. Tilføj fysik og en bund
+3. Tilføj platforme og baggrund
+4. Lav flyvende vand
+5. Lav P2
+6. Lav våben
+7. Lav HP
+8. Pointsystem
+9. Død og respawn
+10. Menu
+11. Pause
+12. Flere ekstrating (baner, våben, animationer osv.)
+13. Options til kontrol af dele (HP, våben, baner, hastighed, tyngdekraft osv.)
+14. Bonus ting
