@@ -1,6 +1,7 @@
 import pygame
 import math
 from player import Player
+from environment import Environment
 from random import randint
 
 class Game:
@@ -10,6 +11,8 @@ class Game:
             #State 1: Game
             #State 2: Pause
             self.p = Player()
+            self.e = Environment()
+            
             self.points = 0
             self.target = [250, 250]
                             
@@ -47,8 +50,16 @@ def draw_game():
     if game.state == 0:
         pygame.draw.rect(screen, (30,30,30), pygame.Rect(380, 280, 80, 50))
         screen.blit(myfont.render("MENU", 1, (255,255,255)), (400, 300))
+   
     elif game.state == 1:
-        screen.fill((0,10,20))
+        #environment
+        screen.blit(game.e.bg,(0,0))
+        
+        for i in range(len(game.e.level1)):
+            for j in range(len(game.e.level1[0])):
+                if game.e.level1[i][j] == 1:
+                    screen.blit(game.e.platforms[0], (i*32,j*32))
+    
         #pygame.draw.rect(screen, (10,123,50), pygame.Rect(game.x, game.y, 50, 50))
         if game.p.up:
             sprite = game.p.sprites[4+int(pygame.time.get_ticks()/200)%2]
@@ -62,14 +73,17 @@ def draw_game():
             sprite = game.p.sprites[int(pygame.time.get_ticks()/300)%2]
         sprite = pygame.transform.scale(sprite,(sprite.get_width()*5,sprite.get_height()*5))
         screen.blit(sprite, (game.p.x, game.p.y))
+        
         pygame.draw.rect(screen, (123,50,10), pygame.Rect(game.target[0], game.target[1], 50, 50))
         screen.blit(myfont.render("Points: {}".format(game.points), 1, (255,255,0)), (100, 100))
+        
+        
     elif game.state == 2:
         pygame.draw.rect(screen, (30,30,30), pygame.Rect(380, 280, 80, 50))
         screen.blit(myfont.render("PAUSE", 1, (255,255,255)), (400, 300))
 
 pygame.init()
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((800, 640))
 # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
 myfont = pygame.font.SysFont("monospace", 15)
 
@@ -92,10 +106,11 @@ while not done:
                 game.start_game()
     
     pressed = pygame.key.get_pressed()
-    
-    game.tick(pygame, pressed)
+
     if game.state == 1:
-        game.p.tick(pygame,pressed)
+        game.p.tick(pygame,pressed)    
+    game.tick(pygame, pressed)
+
     draw_game()
     
     pygame.display.flip()

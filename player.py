@@ -16,7 +16,7 @@ class Player:
         self.right = False
         self.onGround = False
         self.squich = False
-        self.verticalMovement = 0.0
+        self.vMovement = 0.0
         
         try:
             #.convert() converterer billedet til det format, der
@@ -43,15 +43,25 @@ class Player:
         self.down = False
         self.left = False
         self.right = False
-        if pressed[pg.K_UP]: 
-            self.y -= 3
-            self.up = True
-        if pressed[pg.K_DOWN]: 
-            self.y += 3
-            self.down = True
+        if pressed[pg.K_UP]: #and dist to ground < ? (lav også det til +=)
+            self.vMovement =20
         if pressed[pg.K_LEFT]: 
             self.x -= 3
             self.left = True
         if pressed[pg.K_RIGHT]: 
             self.x += 3
             self.right = True
+        
+        self.y -= self.vMovement
+        self.vMovement -= 2
+        
+        if self.y > 578:
+            self.vMovement = 0
+            self.y = 578
+        
+        if self.vMovement > 5:
+            self.up = True
+        elif self.vMovement < -5:
+            self.down = True
+        
+        
