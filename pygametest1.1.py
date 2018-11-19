@@ -50,18 +50,24 @@ def draw_game():
     if game.state == 0:
         pygame.draw.rect(screen, (30,30,30), pygame.Rect(380, 280, 80, 50))
         screen.blit(myfont.render("MENU", 1, (255,255,255)), (400, 300))
+        screen.blit(myfont.render("Press 'Esc' to start", 1, (255,255,255)), (400, 300))
    
     elif game.state == 1:
         #environment
         screen.blit(game.e.bg,(0,0))
         
-        for i in range(len(game.e.level1)):
-            for j in range(len(game.e.level1[0])):
-                if game.e.level1[i][j] == 1:
+        for i in range(len(game.e.level4)):
+            for j in range(len(game.e.level4[0])):
+                if game.e.level4[i][j] == 1:
                     screen.blit(game.e.platforms[0], (i*32,j*32))
     
         #pygame.draw.rect(screen, (10,123,50), pygame.Rect(game.x, game.y, 50, 50))
-        if game.p.up:
+        if game.p.state == 1:
+#            if game.p.lives < 0:
+#                game.state = 0
+            sprite = game.p.sprites[3]
+            #game.p.respawn()
+        elif game.p.up:
             sprite = game.p.sprites[4+int(pygame.time.get_ticks()/200)%2]
         elif game.p.down:
             sprite = game.p.sprites[6+int(pygame.time.get_ticks()/200)%2]
@@ -71,11 +77,13 @@ def draw_game():
             sprite = game.p.sprites[10+int(pygame.time.get_ticks()/200)%2]
         else:
             sprite = game.p.sprites[int(pygame.time.get_ticks()/300)%2]
-        sprite = pygame.transform.scale(sprite,(sprite.get_width()*5,sprite.get_height()*5))
-        screen.blit(sprite, (game.p.x, game.p.y))
+        hw = [sprite.get_width(),sprite.get_height()]
+        sprite = pygame.transform.scale(sprite,(hw[0]*4,hw[1]*4))
+        screen.blit(sprite, (game.p.x - hw[0]*2, game.p.y - hw[1]*3.5))
         
-        pygame.draw.rect(screen, (123,50,10), pygame.Rect(game.target[0], game.target[1], 50, 50))
-        screen.blit(myfont.render("Points: {}".format(game.points), 1, (255,255,0)), (100, 100))
+        pygame.draw.rect(screen, (123,50,10), pygame.Rect(game.target[0]-25, game.target[1]-50, 50, 50))
+        
+        screen.blit(myfont.render("Points: {}".format(game.points), 1, (255,0,0)), (100, 100))
         
         
     elif game.state == 2:
@@ -94,6 +102,7 @@ game = Game()
 clock = pygame.time.Clock()
 
 while not done:
+    ticktime = clock.tick(60)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
@@ -108,11 +117,11 @@ while not done:
     pressed = pygame.key.get_pressed()
 
     if game.state == 1:
-        game.p.tick(pygame,pressed)    
+        game.p.tick(pygame,pressed, ticktime)    
     game.tick(pygame, pressed)
-
+    
     draw_game()
     
     pygame.display.flip()
-    clock.tick(60)
+    
 
