@@ -22,6 +22,7 @@ class Player:
         self.HP = 100.0
         self.lives = 3
         
+        #0 = alive, 1 = dead, 
         self.state = 0
         self.stateTime = 0
         
@@ -62,14 +63,14 @@ class Player:
         
         if self.state == 1:
             self.stateTime += ticktime
-            if self.stateTime > 1000:
+            if self.stateTime > 700:
                 self.state = 0
                 self.y = 100
                 self.x = 100
                 self.HP = 100.0
                 self.stateTime = 0
                 self.vMovement = 0.0
-#                self.lives -= 1
+                self.lives -= 1
             
         
         #Vertical movement
@@ -103,8 +104,10 @@ class Player:
             elif self.vMovement < -5:
                 self.down = True
                 
-            self.y -= self.vMovement*float(ticktime)/16
+            self.y -= self.vMovement
             self.vMovement -= 0.5*float(ticktime)/16
+            if self.vMovement > 30:
+                self.vMovement = 30
             
             self.ctrl_p()
             if self.e.find_col(self.x,self.y) ==True and self.vMovement<0:
@@ -133,3 +136,5 @@ class Player:
             self.y = 640
             self.HP = 0
             self.state = 1
+    
+    
