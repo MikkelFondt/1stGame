@@ -61,9 +61,16 @@ class Player:
         self.left = False
         self.right = False
         
+        if self.state == 0:
+            if self.y == 640:
+                self.state = 1
+            if self.lives < 0:
+                self.state = 2
         if self.state == 1:
             self.stateTime += ticktime
-            if self.stateTime > 700:
+            if self.lives < 0:
+                self.state = 2
+            elif self.stateTime > 700:
                 self.state = 0
                 self.y = 100
                 self.x = 100
@@ -71,7 +78,6 @@ class Player:
                 self.stateTime = 0
                 self.vMovement = 0.0
                 self.lives -= 1
-            
         
         #Vertical movement
         if self.jState == 0:
@@ -135,6 +141,9 @@ class Player:
         if self.y > 640:
             self.y = 640
             self.HP = 0
-            self.state = 1
+
+            
+    
+         
     
     

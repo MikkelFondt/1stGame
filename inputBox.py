@@ -38,10 +38,7 @@ class InputBox:
             self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
         if event.type == pg.KEYDOWN:
             if self.active:
-                if event.key == pg.K_RETURN:
-                    print(self.text)
-                    self.text = ''
-                elif event.key == pg.K_BACKSPACE:
+                if event.key == pg.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
                     if len(self.text)<16:
@@ -59,6 +56,13 @@ class InputBox:
         screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Blit the rect.
         pg.draw.rect(screen, self.color, self.rect, 2)
+    
+    def get_input(self):
+        self.text = self.text[:-2]
+        name = self.text
+        self.text = ''
+        self.txt_surface = FONT.render(self.text, True, self.color)
+        return name
 
 
 
