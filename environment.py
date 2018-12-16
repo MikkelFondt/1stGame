@@ -43,8 +43,6 @@ class Environment:
         for k in range(6):
             self.level4.append([0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1])
                        
-                       
-        
     def find_col(self,x,y): 
 #Midlertidlig
 #        try:
@@ -62,8 +60,7 @@ class Environment:
                 return False
         else:
             return False
-        
-        
+              
 #    def design_level():
 #        a = 0
 #        if self.level == 0:

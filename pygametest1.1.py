@@ -167,7 +167,7 @@ Mfont = pygame.font.SysFont("monospace",25)
 done = False
 
 game = Game()
-
+    
 clock = pygame.time.Clock()
 
 while not done:
